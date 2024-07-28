@@ -35,9 +35,10 @@ struct SubCollapsibleSection: View {
             
             if isExpanded {
                 ForEach(movies, id: \.title) { movie in
-                    Button(action: {
-                        onSelect(movie)
-                    }) {
+                    NavigationLink {
+//                        onSelect(movie)
+                        MovieDetailView(movie: movie)
+                    } label: {
                         MovieCell(movie: movie, filter: filter)
                             .padding(.leading, 10)
                             .padding(.leading)

@@ -12,13 +12,14 @@ struct SearchBar: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UISearchBar {
         let searchBar = UISearchBar()
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = "Search movies by title/actor/genre/director"
+        searchBar.delegate = context.coordinator
+
         return searchBar
     }
 
     func updateUIView(_ uiView: UISearchBar, context: Context) {
         uiView.text = text
-        uiView.delegate = context.coordinator
     }
 
     func makeCoordinator() -> Coordinator {
@@ -35,5 +36,14 @@ struct SearchBar: UIViewRepresentable {
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             text = searchText
         }
+
+        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+            text = ""
+            searchBar.text = ""
+            searchBar.resignFirstResponder()
+            
+        }
+        
+        
     }
 }

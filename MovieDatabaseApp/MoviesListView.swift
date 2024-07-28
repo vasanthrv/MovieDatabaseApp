@@ -11,7 +11,7 @@ struct MoviesListView: View {
     @State private var movies = loadMovies()
     @State private var filteredMovies = [Movie]()
     @State private var searchText = ""
-    @State private var showDetails: Movie? = nil
+    @State private var detailedMovie: Movie? = nil
     @State private var showDetail: Bool = false
     @State private var currentFilter: Filter? = nil
     
@@ -26,7 +26,9 @@ struct MoviesListView: View {
                             filterMovies()
                         }
                         .submitLabel(.search)
-                    
+                        .onSubmit {
+                            filterMovies()
+                        }
                     if searchText.isEmpty {
                         ForEach(filters, id: \.self) { filter in
                             Button {
@@ -50,7 +52,7 @@ struct MoviesListView: View {
                             
                             if currentFilter == filter {
                                 CollapsibleSection(filter: filter, movies: filteredMovies, onSelect: { movie in
-                                    showDetails = movie
+                                    detailedMovie = movie
                                     showDetail.toggle()
                                 })
                             }
@@ -59,10 +61,9 @@ struct MoviesListView: View {
                     }
                     else {
                         ForEach(filteredMovies, id: \.title) { movie in
-                            Button(action: {
-                                showDetails = movie
-                                showDetail.toggle()
-                            }) {
+                            NavigationLink {
+                                MovieDetailView(movie: movie)
+                            } label: {
                                 MovieCell(movie: movie)
                                     .clipShape(Rectangle())
                             }
@@ -73,14 +74,10 @@ struct MoviesListView: View {
             }
             .navigationTitle("Movie Database")
             .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $showDetail) {
-                if let movie = showDetails {
-                    MovieDetailView(movie: movie)
-                }
-            }
             .onAppear {
                 filteredMovies = movies
             }
+            .scrollDismissesKeyboard(.immediately)
         }
     }
     
@@ -98,3 +95,12 @@ struct MoviesListView: View {
     }
 }
 
+
+struct DismissKeyboardOnTap: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
+    }
+}

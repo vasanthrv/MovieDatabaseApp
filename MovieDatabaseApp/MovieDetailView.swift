@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MovieDetailView: View {
     let movie: Movie
-    @State private var selectedRatingSource: String = "IMDB"
+    @State private var selectedRatingSource: String = "Internet Movie Database"
 
     var body: some View {
         ScrollView {
@@ -38,7 +38,8 @@ struct MovieDetailView: View {
                     .foregroundStyle(Color.primary)
                 Text("Cast & Crew: \(movie.actors)")
                     .foregroundStyle(Color.primary)
-                
+                Text("Genre: \(movie.genre)")
+                    .foregroundStyle(Color.primary)
                 Picker("Rating Source", selection: $selectedRatingSource) {
                     ForEach(movie.ratings.map { $0.source }, id: \.self) { source in
                         Text(source)
@@ -53,8 +54,6 @@ struct MovieDetailView: View {
                     RatingControl(rating: rating.value)
                 }
                 
-                Text("Genre: \(movie.genre)")
-                    .foregroundStyle(Color.primary)
             }
             .padding()
         }

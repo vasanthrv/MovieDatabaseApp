@@ -16,9 +16,10 @@ struct CollapsibleSection: View {
         VStack(alignment: .leading) {
             if filter == .all {
                 ForEach(movies, id: \.title) { movie in
-                    Button(action: {
-                        onSelect(movie)
-                    }) {
+                    NavigationLink {
+//                        onSelect(movie)
+                        MovieDetailView(movie: movie)
+                    } label: {
                         MovieCell(movie: movie, filter: .all)
                             .clipShape(Rectangle())
                     }

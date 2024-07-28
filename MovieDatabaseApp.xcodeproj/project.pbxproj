@@ -78,10 +78,10 @@
 				6ABB6E3C2C5567DB0002C725 /* SubCollapsibleSection.swift */,
 				6ABB6E322C55439E0002C725 /* SearchBar.swift */,
 				6ABB6E342C5543C00002C725 /* MovieCell.swift */,
+				6ABB6E382C5546090002C725 /* RatingControl.swift */,
+				6ABB6E362C5545D90002C725 /* MovieDetailView.swift */,
 				6A90E4792C54D377001943D9 /* Assets.xcassets */,
 				6A90E47B2C54D377001943D9 /* Preview Content */,
-				6ABB6E362C5545D90002C725 /* MovieDetailView.swift */,
-				6ABB6E382C5546090002C725 /* RatingControl.swift */,
 			);
 			path = MovieDatabaseApp;
 			sourceTree = "<group>";
