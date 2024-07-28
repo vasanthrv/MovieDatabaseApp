@@ -12,7 +12,7 @@ struct MovieCell: View {
     var filter: Filter = .all
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             AsyncImage(url: movie.poster) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fit)
@@ -21,48 +21,79 @@ struct MovieCell: View {
             }
             .frame(width: 50, height: 80)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(movie.title)
+                    .font(.headline)
+                    .multilineTextAlignment(.leading)
+                    .foregroundStyle(Color.primary)
                 switch filter {
                 case .all:
-                    Text(movie.title)
-                        .font(.headline)
-                        .foregroundStyle(Color.primary)
-                    Text(movie.year)
-                        .font(.subheadline)
-                        .foregroundStyle(Color.primary)
-                    Text(movie.language)
-                        .font(.caption)
-                        .foregroundStyle(Color.primary)
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("Language:")
+                            .font(.caption)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                        Text(movie.language)
+                            .font(.caption)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                    }
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("Year:")
+                            .font(.caption)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                        Text(movie.year)
+                            .font(.subheadline)
+                            .foregroundStyle(Color.primary)
+                    }
                 case .year:
-                    Text(movie.title)
-                        .font(.headline)
-                        .foregroundStyle(Color.primary)
-                    Text(movie.year)
-                        .font(.subheadline)
-                        .foregroundStyle(Color.primary)
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("Year:")
+                            .font(.caption)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                        Text(movie.year)
+                            .font(.subheadline)
+                            .foregroundStyle(Color.primary)
+                    }
                 case .genre:
-                    Text(movie.title)
-                        .font(.headline)
-                        .foregroundStyle(Color.primary)
-                    Text(movie.genre)
-                        .font(.subheadline)
-                        .foregroundStyle(Color.primary)
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("Genre:")
+                            .font(.caption)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                        Text(movie.genre)
+                            .font(.subheadline)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                    }
                 case .director:
-                    Text(movie.title)
-                        .font(.headline)
-                        .foregroundStyle(Color.primary)
-                    Text(movie.director)
-                        .foregroundStyle(Color.primary)
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("Directors:")
+                            .font(.caption)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                        
+                        Text(movie.director)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                    }
                 case .actor:
-                    Text(movie.title)
-                        .font(.headline)
-                        .foregroundStyle(Color.primary)
-                    Text(movie.actors)
-                        .font(.subheadline)
-                        .foregroundStyle(Color.primary)
+                    HStack(alignment: .top, spacing: 4) {
+                        Text("Actors:")
+                            .font(.caption)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                        Text(movie.actors)
+                            .font(.subheadline)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.primary)
+                    }
                 }
             }
         }
+        .padding(.horizontal, 8)
     }
 }
 

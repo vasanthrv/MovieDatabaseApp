@@ -13,7 +13,7 @@ struct MovieDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 AsyncImage(url: movie.poster) { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fit)

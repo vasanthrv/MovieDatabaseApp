@@ -19,62 +19,64 @@ struct MoviesListView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView(.vertical) {
-                VStack(alignment: .leading) {
-                    SearchBar(text: $searchText)
-                        .onChange(of: searchText) { _ in
-                            filterMovies()
-                        }
-                        .submitLabel(.search)
-                        .onSubmit {
-                            filterMovies()
-                        }
-                    if searchText.isEmpty {
-                        ForEach(filters, id: \.self) { filter in
-                            Button {
-                                if currentFilter == filter {
-                                    currentFilter = nil // Collapse section
-                                } else {
-                                    currentFilter = filter // Expand new section
-                                }
-                            } label: {
-                                HStack {
-                                    Text(filter.rawValue)
-                                        .foregroundStyle(Color.primary)
-                                    Spacer()
-                                    Image(systemName: currentFilter == filter ? "chevron.down" : "chevron.right")
-                                        .foregroundStyle(Color.primary)
-                                }
-                                .padding()
-                                .clipShape(Rectangle())
-                            }
-                            .buttonStyle(.borderless)
-                            
-                            if currentFilter == filter {
-                                CollapsibleSection(filter: filter, movies: filteredMovies)
-                            }
-                            Divider()
-                        }
+            VStack(alignment: .leading) {
+                SearchBar(text: $searchText)
+                    .onChange(of: searchText) { _ in
+                        filterMovies()
                     }
-                    else {
-                        ForEach(filteredMovies, id: \.title) { movie in
-                            NavigationLink {
-                                MovieDetailView(movie: movie)
-                            } label: {
-                                MovieCell(movie: movie)
+                    .submitLabel(.search)
+                    .onSubmit {
+                        filterMovies()
+                    }
+                ScrollView(.vertical) {
+                    LazyVStack(alignment: .leading) {
+                        if searchText.isEmpty {
+                            ForEach(filters, id: \.self) { filter in
+                                Button {
+                                    if currentFilter == filter {
+                                        currentFilter = nil // Collapse section
+                                    } else {
+                                        currentFilter = filter // Expand new section
+                                    }
+                                } label: {
+                                    HStack {
+                                        Text(filter.rawValue)
+                                            .foregroundStyle(Color.primary)
+                                        Spacer()
+                                        Image(systemName: currentFilter == filter ? "chevron.down" : "chevron.right")
+                                            .foregroundStyle(Color.primary)
+                                    }
+                                    .padding()
                                     .clipShape(Rectangle())
+                                }
+                                .buttonStyle(.borderless)
+                                
+                                if currentFilter == filter {
+                                    CollapsibleSection(filter: filter, movies: filteredMovies)
+                                }
+                                Divider()
                             }
-                            .buttonStyle(.borderless)
+                        }
+                        else {
+                            ForEach(filteredMovies, id: \.title) { movie in
+                                NavigationLink {
+                                    MovieDetailView(movie: movie)
+                                } label: {
+                                    MovieCell(movie: movie)
+                                        .clipShape(Rectangle())
+                                }
+                                .buttonStyle(.borderless)
+                            }
                         }
                     }
                 }
+                .navigationTitle("Movie Database")
+                .navigationBarTitleDisplayMode(.inline)
+                .onAppear {
+                    filteredMovies = movies
+                }
+                .scrollDismissesKeyboard(.immediately)
             }
-            .navigationTitle("Movie Database")
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                filteredMovies = movies
-            }
-            .scrollDismissesKeyboard(.immediately)
         }
     }
     
