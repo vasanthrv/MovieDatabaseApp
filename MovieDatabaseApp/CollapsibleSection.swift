@@ -10,7 +10,7 @@ import SwiftUI
 struct CollapsibleSection: View {
     let filter: Filter
     let movies: [Movie]
-    let onSelect: (Movie) -> Void
+//    let onSelect: (Movie) -> Void
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -28,7 +28,7 @@ struct CollapsibleSection: View {
             } else {
                 let uniqueValues = getUniqueValues(for: filter)
                 ForEach(uniqueValues, id: \.self) { value in
-                    SubCollapsibleSection(value: value, movies: movies.filter { filterSection(movie: $0, filter: filter, option: value) }, onSelect: onSelect, filter: filter)
+                    SubCollapsibleSection(value: value, movies: movies.filter { filterSection(movie: $0, filter: filter, option: value) }, filter: filter)
                 }
             }
         }
@@ -37,9 +37,9 @@ struct CollapsibleSection: View {
     private func getUniqueValues(for filter: Filter) -> [String] {
         switch filter {
         case .year:
-                return Array(Set(movies.flatMap { extractYear(from: $0.year) }))
+            return Array(Set(movies.flatMap { extractYear(from: $0.year) })).sorted()
         case .genre:
-            return Array(Set(movies.flatMap { $0.genre.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) } }))
+            return Array(Set(movies.flatMap { $0.genre.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) } })).sorted()
         case .director:
             return Array(Set(movies.flatMap { $0.director.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) } }))
         case .actor:
@@ -50,7 +50,7 @@ struct CollapsibleSection: View {
     }
     
     private func extractYear(from yearString: String) -> [String] {
-        let components = yearString.split(separator: "-").map { $0.trimmingCharacters(in: .whitespaces) }
+        let components = yearString.split(separator: "–").map { $0.trimmingCharacters(in: .whitespaces) }
         guard let startYear = components.first else { return [] }
         return [startYear] // Use only the start year for ranges or partial ranges
     }

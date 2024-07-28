@@ -51,10 +51,7 @@ struct MoviesListView: View {
                             .buttonStyle(.borderless)
                             
                             if currentFilter == filter {
-                                CollapsibleSection(filter: filter, movies: filteredMovies, onSelect: { movie in
-                                    detailedMovie = movie
-                                    showDetail.toggle()
-                                })
+                                CollapsibleSection(filter: filter, movies: filteredMovies)
                             }
                             Divider()
                         }

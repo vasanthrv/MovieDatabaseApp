@@ -10,7 +10,7 @@ import SwiftUI
 struct SubCollapsibleSection: View {
     let value: String
     let movies: [Movie]
-    let onSelect: (Movie) -> Void
+//    let onSelect: (Movie) -> Void
     let filter: Filter
     
     @State private var isExpanded: Bool = false
